@@ -151,3 +151,20 @@ println!("{}", r3);
 ```
 
 All this logic prevents dangling pointers! 🎉
+
+## Moving on
+
+Slices let you reference parts of a variable:
+
+```rust
+let s = String::from("hello world");
+
+let hello = &s[0..5];
+let world = &s[6..11];
+
+s.clear();
+
+// INVALID because 'hello' is a reference to
+// part of a variable that is no longer valid:
+println!("{}", hello); 
+```
