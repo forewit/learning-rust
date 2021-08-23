@@ -65,7 +65,7 @@ let result = loop {
 }; // result = 20
 ```
 
-## [Ownership](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
+# [Ownership](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
 Data in the **stack** must be a known size, but the **heap** can grow and shrink.
 
 Values passed to functions are *pushed* onto the stack and *popped* off when the function completes.
@@ -96,7 +96,7 @@ let y = x;
 
 Passing variables to a function also transfers ownership.
 
-## [References](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html)
+# [References](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html)
 References "borrow" a value from another variable without owning it.
 You cannot modify a borrowed value!
 
@@ -152,9 +152,9 @@ println!("{}", r3);
 
 All this logic prevents dangling pointers! 🎉
 
-## Moving on
-
-Slices let you reference parts of a variable:
+ 
+### **Slices**
+Let you reference parts of a variable:
 
 ```rust
 let s = String::from("hello world");
@@ -168,3 +168,93 @@ s.clear();
 // part of a variable that is no longer valid:
 println!("{}", hello); 
 ```
+
+# **Structs**
+Similar to tuples, but with named fields:
+```rust
+// define a struct
+struct User {
+    name: String,
+    email: String,
+    age: i32,
+}
+
+// use it
+let mut user1 = User { 
+    name: "Bob", 
+    email: "someone@example.com",
+    age: 30
+};
+user1.name = "Alice";
+
+// struct update syntax
+let user2 = User {
+    name: "Joe",
+    ..user1
+};
+```
+**Tuple structs** keep the struct name but not the field names:
+```rust
+// define tuple structs
+struct Point(i32, i32);
+struct Color(i32, i32, i32);
+
+// use them
+let origin = Point(0, 0);
+let color = Color(255, 0, 0);
+```
+When printing structs (for debugging):
+1. add `#[derive(Debug)]` to the struct definition
+2. `{:?}` to print the struct fields
+3. `{:#?}` to print the struct in a human readable format
+
+### **Methods**
+Methods are functions that belong to a struct:
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+// defines the context of the method
+// as the Rectangle struct
+impl Rectangle {
+    // Area method
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        rect1.area()
+    );
+}
+```
+The first parameter of a method is always `&self`.
+
+### **Associated Functions**
+Associated functions are functions that belong to a struct but do not take a `&self` parameter. They can be used as constructors:
+```rust
+impl Rectangle {
+    // no '&self' parameter
+    fn square(size: u32) -> Rectangle {
+        Rectangle {
+            width: size,
+            height: size,
+        }
+    }
+}
+
+// .. use it:
+Rectangle::square(10);
+```
+
+# **Enums**
