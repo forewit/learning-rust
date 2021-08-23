@@ -9,6 +9,8 @@ $ cargo run
 ---
 Variables are immutable by default. Use `mut` to make them mutable: `let mut name = String::new();`
 
+`match <expression> { <case> => <action> }` is similar to 'switch' in other languages.
+
 | Rust  | Description |
 | ----- | ----------- |
 | `::` | function of a type |
