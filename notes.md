@@ -19,4 +19,3 @@ Variables are immutable by default. Use `mut` to make them mutable: `let mut nam
 | `mut` | mutable |
 | `1..10` | range 1-9 |
 | `1..=10` | range 1-10 |
-
