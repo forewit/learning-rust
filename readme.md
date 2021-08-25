@@ -1,6 +1,7 @@
 These are my notes taken while learning rust... they may be rough, but are meant as quick reference during development.
 
 # Getting started
+
 - [Ownership](#ownership)
 - [References](#references)
 - [Structs](#structs)
@@ -69,11 +70,12 @@ let result = loop {
 ```
 
 # [Ownership](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
+
 Data in the **stack** must be a known size, but the **heap** can grow and shrink.
 
-Values passed to functions are *pushed* onto the stack and *popped* off when the function completes.
+Values passed to functions are _pushed_ onto the stack and _popped_ off when the function completes.
 
-Allocating to the heap returns a *pointer* and is expensive. **Ownership** is there to help manage memory on the heap:
+Allocating to the heap returns a _pointer_ and is expensive. **Ownership** is there to help manage memory on the heap:
 
 > 1. Each value in Rust has a variable that’s called its owner.
 > 2. There can only be one owner at a time.
@@ -84,11 +86,13 @@ For types that reference memory on the heap, "moving" a variable will invalidate
 ```rust
 // MOVE:
 let s1 = String::from("hello");
-let s2 = s1; 
+let s2 = s1;
 // s1 is no longer valid. It is owned by s2.
 // This is known as "move".
 ```
+
 For types that store memeory on the stack, "copying" a variable will not invalidate the old owner:
+
 ```rust
 // COPY:
 let x = 5;
@@ -100,6 +104,7 @@ let y = x;
 Passing variables to a function also transfers ownership.
 
 # [References](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html)
+
 References "borrow" a value from another variable without owning it.
 You cannot modify a borrowed value!
 
@@ -111,7 +116,7 @@ fn main() {
     let s = String::from("hello");
 
     // "&s" is a reference that borrows s.
-    change(&s); 
+    change(&s);
 }
 
 fn change(some_string: &String) {
@@ -122,6 +127,7 @@ fn change(some_string: &String) {
 ```
 
 To get around this restriction you can use mutable references `&mut`. But you can only have one mutable reference at a time:
+
 ```rust
 let mut s = String::from("hello");
 
@@ -130,7 +136,9 @@ let r2 = &mut s; // BIG PROBLEM
 
 println!("{}, {}", r1, r2);
 ```
+
 Consider this example:
+
 ```rust
 let mut s = String::from("hello");
 
@@ -140,7 +148,9 @@ let r3 = &mut s; // BIG PROBLEM
 
 println!("{}, {}, and {}", r1, r2, r3);
 ```
+
 But this is OK:
+
 ```rust
 let mut s = String::from("hello");
 
@@ -155,8 +165,8 @@ println!("{}", r3);
 
 All this logic prevents dangling pointers! 🎉
 
- 
 ### **Slices**
+
 Let you reference parts of a variable:
 
 ```rust
@@ -169,11 +179,13 @@ s.clear();
 
 // INVALID because 'hello' is a reference to
 // part of a variable that is no longer valid:
-println!("{}", hello); 
+println!("{}", hello);
 ```
 
 # **Structs**
+
 Similar to tuples, but with named fields:
+
 ```rust
 // define a struct
 struct User {
@@ -183,8 +195,8 @@ struct User {
 }
 
 // use it
-let mut user1 = User { 
-    name: "Bob", 
+let mut user1 = User {
+    name: "Bob",
     email: "someone@example.com",
     age: 30
 };
@@ -196,7 +208,9 @@ let user2 = User {
     ..user1
 };
 ```
+
 **Tuple structs** keep the struct name but not the field names:
+
 ```rust
 // define tuple structs
 struct Point(i32, i32);
@@ -206,13 +220,17 @@ struct Color(i32, i32, i32);
 let origin = Point(0, 0);
 let color = Color(255, 0, 0);
 ```
+
 When printing structs (for debugging):
+
 1. add `#[derive(Debug)]` to the struct definition
 2. `{:?}` to print the struct fields
 3. `{:#?}` to print the struct in a human readable format
 
 ### **Methods**
+
 Methods are functions that belong to a struct:
+
 ```rust
 #[derive(Debug)]
 struct Rectangle {
@@ -241,10 +259,13 @@ fn main() {
     );
 }
 ```
+
 The first parameter of a method is always `&self`.
 
 ### **Associated Functions**
+
 Associated functions are functions that belong to a struct but do not take a `&self` parameter. They can be used as constructors:
+
 ```rust
 impl Rectangle {
     // no '&self' parameter
@@ -261,3 +282,57 @@ Rectangle::square(10);
 ```
 
 # **Enums**
+
+Enums lets you 'enumerate' the variants of a type:
+
+```rust
+// define an enum
+enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+// use it
+let home = IpAddr::V4(127, 0, 0, 1);
+let loopback = IpAddr::V6(String::from("::1"));
+```
+
+Just like structs, you can define functions for enums using 'impl' blocks. Also, use the 'match' expression to differentiate between variants in a function:
+```rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
+
+> **Note:** rust does not implement the null type. But you can use `Option<T>` to represent null.
+> ```rust
+> fn plus_one(x: Option<i32>) -> Option<i32> {
+>   match x {
+>       None => None,
+>       Some(i) => Some(i + 1),
+>   }
+> }
+>
+> let five = Some(5);
+> let six = plus_one(five);
+> let none = plus_one(None);
+> ```
+
+# **Packaging your code**
+
+> * **Packages:** A Cargo feature that lets you build, test, and share crates
+> * **Crates:** A tree of modules that produces a library or executable
+> * **Modules and use:** Let you control the organization, scope, and privacy of paths
+> * **Paths:** A way of naming an item, such as a struct, function, or module
