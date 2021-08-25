@@ -1,6 +1,11 @@
 These are my notes taken while learning rust... they may be rough, but are meant as quick reference during development.
 
 # Getting started
+- [Install rust](https://www.rust-lang.org/en-US/install.html)
+- [Ownership](#ownership)
+- [References](#references)
+- [Structs](#structs)
+- [Enums](#enums)
 
 https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
 
