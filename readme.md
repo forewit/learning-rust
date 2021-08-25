@@ -1,12 +1,12 @@
 These are my notes taken while learning rust... they may be rough, but are meant as quick reference during development.
 
 # Getting started
-- [Install rust](https://www.rust-lang.org/en-US/install.html)
 - [Ownership](#ownership)
 - [References](#references)
 - [Structs](#structs)
 - [Enums](#enums)
 
+https://www.rust-lang.org/
 https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
 
 ```
@@ -20,7 +20,7 @@ $ cargo run
 
 Variables are immutable by default. Use `mut` to make them mutable: `let mut name = String::new();`. Variable types can be infered or explicitly declared.
 
-Constants must have a defined type: `const MAX_POINTS: u32 = 100_000;`
+Constants must have a defined type: `const MAX_POINTS: u32 = 10;`.
 
 `match <expression> { <case> => <action> }` is similar to 'switch' in other languages.
 
