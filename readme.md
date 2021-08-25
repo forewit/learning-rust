@@ -7,7 +7,7 @@ These are my notes taken while learning rust... they may be rough, but are meant
 - [Enums](#enums)
 
 https://www.rust-lang.org/
-https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
+https://doc.rust-lang.org/book/
 
 ```
 $ cargo new <name>  # Create a new cargo project
