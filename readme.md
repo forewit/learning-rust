@@ -4,7 +4,7 @@ https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
 
 ```
 $ cargo new <name>  # Create a new cargo project
-$ cargo build       # tags: release, debug
+$ cargo build       # tags: --release, --debug
 $ cargo check       # verifies that the code compiles
 $ cargo run
 ```
