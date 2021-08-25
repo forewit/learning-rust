@@ -1,3 +1,5 @@
+These are my notes taken while learning rust... they may be rough, but are meant as quick reference during development.
+
 # Getting started
 
 https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
