@@ -35,10 +35,6 @@ Constants must have a defined type: `const MAX_POINTS: u32 = 100_000;`
 let spaces = "   ";
 let spaces = spaces.len();
 // spaces is now "3" in this scope
-
-let mut spaces = "   ";
-let spaces = spaces.len();
-// this will not compile
 ```
 
 **Expressions vs statements**: Statements are instructions that perform some action and do not return a value. Expressions evaluate to a resulting value.
