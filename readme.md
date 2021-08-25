@@ -32,7 +32,7 @@ Constants must have a defined type: `const MAX_POINTS: u32 = 100_000;`
 "Shadowing" allows you to override a variable in a scope (declaring with the same name). For example:
 
 ```rust
-let spaces = "   ";
+let spaces = "abc";
 let spaces = spaces.len();
 // spaces is now "3" in this scope
 ```
